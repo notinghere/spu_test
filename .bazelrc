@@ -24,6 +24,7 @@ build --enable_platform_specific_config
 
 build --cxxopt=-std=c++17
 build --host_cxxopt=-std=c++17
+build --linkopt=-ldl
 
 build:avx --copt=-mavx
 build:avx --host_copt=-mavx

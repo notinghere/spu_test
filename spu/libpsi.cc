@@ -21,6 +21,7 @@
 #include "psi/launch.h"
 #include "psi/legacy/memory_psi.h"
 #include "psi/utils/progress.h"
+#include "psi/ecdh/ecdh_psi.h"
 
 #include "psi/proto/pir.pb.h"
 #include "psi/proto/psi.pb.h"
@@ -56,6 +57,15 @@ void BindLibs(py::module& m) {
 
         psi::MemoryPsi psi(config, lctx);
         return psi.Run(items);
+      },
+      NO_GIL);
+
+  m.def(
+      "ecdh_psi",
+      [](const std::shared_ptr<yacl::link::Context>& lctx,
+         const std::vector<std::string>& items) -> std::vector<std::string> {
+
+        return psi::ecdh::RunEcdhPsi(lctx, items, yacl::link::kAllRank);
       },
       NO_GIL);
 

@@ -143,6 +143,18 @@ def ub_psi(
     report.ParseFromString(report_str)
     return report
 
+def ecdh_psi(
+    config: UbPsiConfig,
+    link: Context = None,
+) -> List:
+    
+    report_str = libpsi.libs.ub_psi(
+        config.SerializeToString(),
+        link,
+    )
+    report = PsiResultReport()
+    report.ParseFromString(report_str)
+    return report
 
 def pir(config: PirProtocol, link: Context = None) -> PirResultReport:
     report_str = libpsi.libs.pir(config.SerializeToString(), link)

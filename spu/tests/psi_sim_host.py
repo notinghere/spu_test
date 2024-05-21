@@ -33,13 +33,13 @@ def prepare_data():
 def prepare_hosts():
     return [f"127.0.0.1:61530",f"127.0.0.1:61531"]
 
-def simple_in_memory_psi(_):
+def simple_in_memory_psi_brpc(_):
 
     hosts = prepare_hosts()
     lctx_desc = libspu.link.Desc()
     
-    lctx_desc.add_party(f"id_0", hosts[0])
-    lctx_desc.add_party(f"id_1", hosts[1])
+    lctx_desc.add_party(f"alice", hosts[0])
+    lctx_desc.add_party(f"bob", hosts[1])
 
     lctx_desc.recv_timeout_ms= 2*60*1000
 
@@ -48,5 +48,31 @@ def simple_in_memory_psi(_):
     print(intersection)
     lctx.stop_link()
 
+# def simple_in_memory_psi_http(_):
+
+#     hosts = prepare_hosts()
+#     lctx_desc = libspu.link.Desc()
+#     lctx_desc.brpc_channel_protocol = "http"
+
+#     import os
+#     os.environ["system.transport"]=hosts[0]
+#     os.environ["config.trace_id"]="1234"
+#     os.environ["config.token"]="1234"
+#     os.environ["config.session_id"]="1234"
+#     os.environ["config.inst_id.alice"]="1234"
+#     os.environ["config.inst_id.bob"]="5678"
+#     # os.environ["config.node_id.host"]="1234"
+#     # os.environ["config.node_id.guest"]="5678"
+#     os.environ["config.self_role"]="bob"
+    
+#     lctx_desc.add_party(f"alice", hosts[0])
+#     lctx_desc.add_party(f"bob", hosts[1])
+
+#     lctx_desc.recv_timeout_ms= 2*60*1000
+
+#     lctx = libspu.link.create_brpc_blackbox(lctx_desc, 1)
+#     intersection = libpsi.libs.ecdh_psi(lctx,prepare_data())
+#     print(intersection)
+#     lctx.stop_link()
 if __name__ == '__main__':
-    app.run(simple_in_memory_psi)
+    app.run(simple_in_memory_psi_brpc)
